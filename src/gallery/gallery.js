@@ -20,6 +20,9 @@ export const initGallery = ({
     const thumbnail = image.cloneNode();
 
     image.classList.add("image");
+    const attributeDraggable = document.createAttribute("draggable");
+    attributeDraggable.value = "true";
+    image.attributes.setNamedItem(attributeDraggable);
     if (i === 0) {
       image.classList.add("image--first", "visible");
     }
@@ -66,7 +69,10 @@ export const initGallery = ({
 
   const changeCurrentThumbnail = () => {
     thumbnails.children[currentImageIndex].style.border = "2px solid white";
+    thumbnails.children[currentImageIndex].style.transform = "scale(1.1)";
+    thumbnails.children[currentImageIndex].style.transformOrigin = "bottom";
     thumbnails.children[prevImageIndex].style.border = "";
+    thumbnails.children[prevImageIndex].style.transform = "";
 
     // IN THIS CASE POSITION THE IMAGE IN THE CENTER
     if (currentImageIndex > 3 && currentImageIndex < getMaxSize() - 4) {
@@ -168,20 +174,14 @@ export const initGallery = ({
   });
 
   galleryContent.addEventListener("click", (e) => {
-    fullScreenContainer = document.createElement("div");
-    fullScreenContainer.classList.add("full-screen-container");
-
-    const image = document.createElement("img");
-    image.src = galleryContent.children[currentImageIndex].src;
-
-    fullScreenContainer.appendChild(image);
-    gallery.appendChild(fullScreenContainer);
-    fullScreenContainer.requestFullscreen();
+    gallery.requestFullscreen().then(() => {
+      changeCurrentThumbnail();
+    });
   });
 
   document.onfullscreenchange = () => {
     if (!document.fullscreenElement) {
-      gallery.removeChild(fullScreenContainer);
+      changeCurrentThumbnail();
     }
   };
 
@@ -196,6 +196,13 @@ export const initGallery = ({
       handlePrevPage();
     }
   });
+
+  for (const image of galleryContent.children) {
+    console.log("ee");
+    image.addEventListener("ondragstart", (e) => {
+      console.log(e);
+    });
+  }
 
   if (autoplay) {
     const intervalId = setInterval(() => {
