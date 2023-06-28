@@ -9,18 +9,18 @@
   cursor: pointer;
 }
 
-.gallery-content {
+.gallery-content-wrapper {
   position: relative;
   height: 500px;
 }
 
-.gallery:fullscreen .gallery-content {
+.gallery:fullscreen .gallery-content-wrapper {
   height: 90%;
 }
 
 .control-buttons img {
   width: 75px;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: white;
   position: absolute;
   top: 50%;
   z-index: 1;
@@ -33,6 +33,24 @@
 .control-buttons .next-button {
   left: 100%;
   transform: translate(-100%, -50%);
+}
+
+.close-button {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  padding: 10px;
+  background-color: white;
+  margin: 10px;
+}
+
+.gallery:fullscreen .close-button {
+  display: block;
+}
+
+.close-button img {
+  width: 50px;
 }
 
 .gallery-content img {

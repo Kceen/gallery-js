@@ -7,12 +7,12 @@ export const initGallery = ({
 }) => {
   let currentImageIndex = 0;
   let prevImageIndex = 0;
-  let fullScreenContainer;
 
   const gallery = document.getElementsByClassName("gallery")[0];
   const galleryContent = document.getElementsByClassName("gallery-content")[0];
   galleryContent.classList.add(`gallery-content--${animationType}`);
   const thumbnails = document.getElementsByClassName("thumbnails")[0];
+  const closeButton = document.getElementsByClassName("close-button")[0];
 
   for (let i = 0; i < imagesUrls.length; i++) {
     const image = document.createElement("img");
@@ -155,6 +155,10 @@ export const initGallery = ({
     handlePrevPage();
   });
 
+  closeButton.addEventListener("click", () => {
+    document.exitFullscreen();
+  });
+
   thumbnails.addEventListener("click", (e) => {
     for (let i = 0; i < thumbnails.children.length; i++) {
       if (thumbnails.children[i] === e.target) {
@@ -198,7 +202,6 @@ export const initGallery = ({
   });
 
   for (const image of galleryContent.children) {
-    console.log("ee");
     image.addEventListener("ondragstart", (e) => {
       console.log(e);
     });
